@@ -1,7 +1,7 @@
 import datetime
 from app import db, ma
 
-"""Mapeamento da entidade Users"""
+"""Definição da classe/tabela dos usuários e seus campos"""
 
 
 class Users(db.Model):
@@ -11,8 +11,6 @@ class Users(db.Model):
     name = db.Column(db.String(60), nullable=False)
     email = db.Column(db.String(50), unique=True, nullable=False)
     created_on = db.Column(db.DateTime, default=datetime.datetime.now())
-    posts = db.relationship('Posts', backref='users', lazy=True)
-    commentaries = db.relationship('Commentaries', backref='users', lazy=True)
 
     def __init__(self, username, password, name, email):
         self.username = username
@@ -21,7 +19,7 @@ class Users(db.Model):
         self.email = email
 
 
-"""Definindo o Schema do Marshmallow para facilitar a utilização de JSON (Serialização)"""
+"""Definindo o Schema do Marshmallow para facilitar a utilização de JSON"""
 
 
 class UsersSchema(ma.Schema):
@@ -30,4 +28,4 @@ class UsersSchema(ma.Schema):
 
 
 user_schema = UsersSchema()
-users_schema = UsersSchema(strict=True, many=True)
+users_schema = UsersSchema(many=True)
